@@ -63,9 +63,9 @@ export function CTA({ onBook }: Props) {
           <div className={styles.right}>
             <div className={styles.mapWrap}>
               <iframe
-                src="https://maps.google.com/maps?q=ul.+Nowy+Świat+35,+Warszawa&z=17&output=embed&hl=pl"
+                src="https://maps.google.com/maps?q=+Zlote+Tarasy,+Warszawa&z=17&output=embed&hl=pl"
                 className={styles.map}
-                title="Lokalizacja BarberSpace — ul. Nowy Świat 35, Warszawa"
+                title="Lokalizacja BarberSpace — ul. Złota 59, Warszawa"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
