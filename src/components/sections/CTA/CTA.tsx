@@ -1,5 +1,4 @@
 import styles from "./cta.module.scss";
-import logo from "../../../assets/images/logo.jpg?w=500";
 import { useInView } from "../../../hooks/useInView";
 import { useMagnetic } from "../../../hooks/useMagnetic";
 
@@ -61,11 +60,16 @@ export function CTA({ onBook }: Props) {
             </div>
           </div>
 
-          <div className={styles.right} aria-hidden="true">
-            <div className={styles.mapMock}>
-              <div className={styles.mapFrame} />
-              <img src={logo} alt="" className={styles.images} />
-              <div className={styles.pin}>📍</div>
+          <div className={styles.right}>
+            <div className={styles.mapWrap}>
+              <iframe
+                src="https://maps.google.com/maps?q=ul.+Nowy+Świat+35,+Warszawa&z=17&output=embed&hl=pl"
+                className={styles.map}
+                title="Lokalizacja BarberSpace — ul. Nowy Świat 35, Warszawa"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
         </div>
