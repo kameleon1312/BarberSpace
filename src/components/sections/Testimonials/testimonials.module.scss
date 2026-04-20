@@ -12,6 +12,7 @@
 .inner { @include m.container; }
 
 .header {
+  text-align: center;
   margin-bottom: clamp(28px, 4vw, 44px);
   display: grid;
   gap: 10px;
@@ -21,6 +22,7 @@
   margin: 0;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: c.$muted;
   letter-spacing: t.$ls-wide;
@@ -67,10 +69,10 @@
 .card {
   margin: 0;
   padding: clamp(20px, 3vw, 28px);
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid c.$line;
   border-radius: r.$xl;
-  box-shadow: s.$soft;
+  box-shadow: none;
   display: grid;
   gap: 14px;
   align-content: start;
@@ -81,7 +83,8 @@
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: s.$lift;
+    border-color: c.$line-strong;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.40);
   }
 }
 

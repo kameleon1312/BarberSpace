@@ -12,6 +12,7 @@
 .inner { @include m.container; }
 
 .header {
+  text-align: center;
   display: grid;
   gap: 10px;
   margin-bottom: clamp(28px, 4vw, 44px);
@@ -21,6 +22,7 @@
   margin: 0;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: c.$muted;
   letter-spacing: t.$ls-wide;
@@ -51,9 +53,9 @@
 }
 
 .subtitle {
-  margin: 0;
+  margin: 0 auto;
   color: c.$text-2;
-  max-width: 68ch;
+  max-width: 58ch;
   line-height: t.$lh;
   font-size: 0.97rem;
 }
@@ -90,8 +92,8 @@
   isolation: isolate;
   border-radius: r.$xl;
   border: 1.5px solid c.$line;
-  background: #ffffff;
-  box-shadow: s.$soft;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
   padding: 18px;
   display: grid;
   gap: 10px;
@@ -111,7 +113,7 @@
   &:hover {
     transform: translateY(-3px);
     border-color: c.$line-strong;
-    box-shadow: s.$lift;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.40);
   }
 
   &:active { transform: translateY(0); }
@@ -126,8 +128,8 @@
   border: 2px solid c.$accent;
   background: linear-gradient(
     160deg,
-    rgba(176, 28, 46, 0.04) 0%,
-    #ffffff 60%
+    rgba(196, 30, 50, 0.12) 0%,
+    rgba(255, 255, 255, 0.04) 60%
   );
 
   &:hover {

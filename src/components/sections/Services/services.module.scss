@@ -11,6 +11,13 @@
 
 .inner { @include m.container; }
 
+.header {
+  text-align: center;
+  margin-bottom: clamp(32px, 5vw, 52px);
+  display: grid;
+  gap: 12px;
+}
+
 .layout {
   display: grid;
   gap: 16px;
@@ -30,15 +37,11 @@
   align-content: start;
 }
 
-.header {
-  display: grid;
-  gap: 10px;
-}
-
 .eyebrow {
   margin: 0;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: c.$muted;
   letter-spacing: t.$ls-wide;
@@ -69,10 +72,10 @@
 }
 
 .subtitle {
-  margin: 0;
+  margin: 0 auto;
   color: c.$text-2;
   line-height: t.$lh;
-  max-width: 60ch;
+  max-width: 58ch;
   font-size: 0.97rem;
 }
 
@@ -102,13 +105,13 @@
   @include m.reduceMotion;
 
   &:hover {
-    background: rgba(176, 28, 46, 0.04);
-    border-left-color: rgba(176, 28, 46, 0.30);
+    background: rgba(196, 30, 50, 0.10);
+    border-left-color: rgba(196, 30, 50, 0.40);
   }
 }
 
 .listItemActive {
-  background: rgba(176, 28, 46, 0.06);
+  background: rgba(196, 30, 50, 0.14);
   border-left-color: c.$accent;
 }
 

@@ -1,23 +1,23 @@
-$bg:   #F7F4EF;
-$bg-2: #EEEAE2;
+$bg:   #111111;
+$bg-2: #1A1A1A;
 
-$surface:     rgba(12, 12, 12, 0.04);
-$surface-2:   rgba(12, 12, 12, 0.07);
-$line:        rgba(12, 12, 12, 0.12);
-$line-strong: rgba(12, 12, 12, 0.22);
+$surface:     rgba(255, 255, 255, 0.05);
+$surface-2:   rgba(255, 255, 255, 0.09);
+$line:        rgba(255, 255, 255, 0.10);
+$line-strong: rgba(255, 255, 255, 0.24);
 
-$text:   #1A1806;
-$text-2: #4A4437;
-$muted:  #6B6254;
+$text:   #F5F2ED;
+$text-2: rgba(245, 242, 237, 0.68);
+$muted:  rgba(245, 242, 237, 0.42);
 
-$ink: #0C0C0C;
+$ink: #0A0A0A;
 
-$accent:       #B01C2E;
-$accent-hover: #8E1524;
-$accent-bg:    rgba(176, 28, 46, 0.08);
+$accent:       #C41E32;
+$accent-hover: #A0192A;
+$accent-bg:    rgba(196, 30, 50, 0.14);
 
-$gold:    #B8762E;
-$gold-bg: rgba(184, 118, 46, 0.10);
+$gold:    #D4964A;
+$gold-bg: rgba(212, 150, 74, 0.12);
 
-$glow-a: rgba(176, 28, 46, 0.05);
-$glow-b: rgba(184, 118, 46, 0.06);
+$glow-a: rgba(196, 30, 50, 0.18);
+$glow-b: rgba(212, 150, 74, 0.12);

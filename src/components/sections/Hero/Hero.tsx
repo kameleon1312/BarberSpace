@@ -28,20 +28,20 @@ export function Hero({ onBook }: HeroProps) {
 
         <div className={styles.copy}>
           <p className={styles.kicker} aria-hidden="true">
-            <span className={styles.kickerNum}>01</span>
-            Night Studio / Editorial Cuts
+            <span className={styles.kickerNum}>01#</span>
+            Na rynku barberskim od 2018 roku!
           </p>
 
           <h1 className={styles.title}>
             BarberSpace.
             <span className={styles.titleBreak}>
-              Wygląd,<br />który działa.
+              Twój wygląd,<br />nasza pasja.
             </span>
           </h1>
 
           <p className={styles.lead}>
-            Premium strzyżenia i broda w klimacie night studio.
-            Szybka rezerwacja, perfekcyjny detal, zero chaosu.
+            Precyzyjne strzyżenie, dopracowana broda — bez kompromisów.
+            Rezerwacja w 20 sekund, efekt na tygodnie.
           </p>
 
           <div className={styles.actions}>

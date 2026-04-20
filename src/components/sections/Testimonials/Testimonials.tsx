@@ -19,7 +19,7 @@ export function Testimonials() {
             <span className={styles.eyebrowNum}>06</span>
             Opinie
           </p>
-          <h2 className={styles.title}>Co mówią klienci.</h2>
+          <h2 className={styles.title}>Słyszeli to sami.</h2>
         </header>
 
         <div className={styles.grid}>

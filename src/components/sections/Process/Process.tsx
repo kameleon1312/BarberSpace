@@ -20,7 +20,7 @@ export function Process() {
             Jak to działa
           </p>
           <h2 className={styles.title}>
-            Cztery kroki.<br />Zero komplikacji.
+            Proste jak<br />powinno być.
           </h2>
         </header>
 

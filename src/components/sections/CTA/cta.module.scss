@@ -37,10 +37,15 @@
 
 .subtitle {
   margin: 0 0 20px;
-  color: rgba(255, 255, 255, 0.65);
-  max-width: 58ch;
+  color: rgba(255, 255, 255, 0.60);
+  max-width: 52ch;
   line-height: t.$lh;
   font-size: 0.97rem;
+}
+
+.left {
+  display: grid;
+  align-content: start;
 }
 
 .actions {

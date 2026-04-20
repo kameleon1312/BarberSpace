@@ -11,6 +11,7 @@
 .inner { @include m.container; }
 
 .header {
+  text-align: center;
   margin-bottom: clamp(28px, 4vw, 44px);
   display: grid;
   gap: 10px;
@@ -20,6 +21,7 @@
   margin: 0;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: c.$muted;
   letter-spacing: t.$ls-wide;
@@ -51,6 +53,7 @@
 
 .list {
   max-width: 760px;
+  margin: 0 auto;
   display: grid;
   gap: 0;
 }

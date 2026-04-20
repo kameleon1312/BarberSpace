@@ -1,7 +1,7 @@
 @use "../tokens/colors" as c;
 @use "../tokens/typography" as t;
 
-:root { color-scheme: light; }
+:root { color-scheme: dark; }
 
 html {
   overflow-x: hidden;
@@ -31,9 +31,9 @@ section {
   isolation: isolate;
 
   background:
-    radial-gradient(900px 500px at 15% -8%,  c.$glow-a, transparent 65%),
-    radial-gradient(800px 480px at 90%  12%, c.$glow-b, transparent 60%),
-    linear-gradient(180deg, c.$bg, c.$bg-2 55%, c.$bg);
+    radial-gradient(900px 600px at 15% -5%,  c.$glow-a, transparent 65%),
+    radial-gradient(800px 500px at 90%  15%, c.$glow-b, transparent 60%),
+    linear-gradient(180deg, c.$bg, c.$bg-2 50%, c.$bg);
 }
 
 .bg-shell::before {
@@ -41,8 +41,8 @@ section {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.038;
-  mix-blend-mode: multiply;
+  opacity: 0.055;
+  mix-blend-mode: screen;
   z-index: -1;
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
@@ -53,7 +53,7 @@ section {
   left: 12px;
   top: 10px;
   transform: translateY(calc(-100% - 12px));
-  background: c.$ink;
+  background: c.$accent;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 10px 12px;
@@ -69,14 +69,14 @@ section {
 // Scroll reveal — elements start hidden, become visible on intersection
 [data-reveal] {
   transition:
-    opacity  560ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity  680ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-reveal="hidden"] {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(52px);
   will-change: opacity, transform;
 }
 

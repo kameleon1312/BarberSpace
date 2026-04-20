@@ -26,7 +26,7 @@ export function CTA({ onBook }: Props) {
           <div className={styles.left}>
             <h2 className={styles.title}>Zarezerwuj termin</h2>
             <p className={styles.subtitle}>
-              Najprościej: kliknij i zarezerwuj. Jeśli wolisz — napisz lub zadzwoń.
+              Kliknij i gotowe — 20 sekund, żaden formularz nie gryzie. Wolisz przez telefon? Też OK.
             </p>
 
             <div className={styles.actions} id="rezerwacja">

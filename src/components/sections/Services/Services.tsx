@@ -33,20 +33,21 @@ export function Services() {
       ref={ref}
     >
       <div className={styles.inner}>
+
+        <header className={styles.header} data-reveal={rv}>
+          <p className={styles.eyebrow} aria-hidden="true">
+            <span className={styles.eyebrowNum}>02</span>
+            Usługi
+          </p>
+          <h2 className={styles.title}>Wybierz usługę.<br />Resztę dowozimy my.</h2>
+          <p className={styles.subtitle}>
+            Premium strzyżenie i broda. Szybki wybór, perfekcyjny efekt, zero chaosu.
+          </p>
+        </header>
+
         <div className={styles.layout}>
 
           <div className={styles.copy}>
-            <header className={styles.header} data-reveal={rv}>
-              <p className={styles.eyebrow} aria-hidden="true">
-                <span className={styles.eyebrowNum}>02</span>
-                Usługi
-              </p>
-              <h2 className={styles.title}>Wybierz usługę.<br />Resztę dowozimy my.</h2>
-              <p className={styles.subtitle}>
-                Premium strzyżenie i broda w klimacie „night studio". Szybki wybór, powtarzalny efekt i zero chaosu.
-              </p>
-            </header>
-
             <ol className={styles.list} aria-label="Lista usług">
               {services.map((s, i) => (
                 <li key={s.title}>

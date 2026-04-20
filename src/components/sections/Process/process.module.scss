@@ -12,6 +12,7 @@
 .inner { @include m.container; }
 
 .header {
+  text-align: center;
   margin-bottom: clamp(32px, 5vw, 52px);
 }
 
@@ -19,6 +20,7 @@
   margin: 0 0 14px;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: c.$muted;
   letter-spacing: t.$ls-wide;

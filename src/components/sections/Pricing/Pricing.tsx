@@ -67,7 +67,7 @@ export function Pricing({ onPick }: PricingProps) {
           </p>
           <h2 className={styles.title}>Transparentnie.<br />Bez niespodzianek.</h2>
           <p className={styles.subtitle}>
-            Płacisz za jakość i powtarzalny efekt. Zero ukrytych kosztów.
+            Płacisz za konkretny efekt, nie za wystrój lokalu. Zero ukrytych kosztów, zero niespodzianek.
           </p>
         </header>
 

@@ -12,6 +12,7 @@
 .inner { @include m.container; }
 
 .header {
+  text-align: center;
   margin-bottom: clamp(28px, 4vw, 48px);
   display: grid;
   gap: 10px;
@@ -21,6 +22,7 @@
   margin: 0;
   display: flex;
   align-items: baseline;
+  justify-content: center;
   gap: 14px;
   color: rgba(255, 255, 255, 0.40);
   letter-spacing: t.$ls-wide;
@@ -51,7 +53,7 @@
 }
 
 .subtitle {
-  margin: 0;
+  margin: 0 auto;
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.97rem;
   line-height: t.$lh;
