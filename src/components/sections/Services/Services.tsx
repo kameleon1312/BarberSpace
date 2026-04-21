@@ -117,11 +117,6 @@ export function Services() {
               <span className={styles.badge}>{current.meta}</span>
             </div>
 
-            <div className={styles.previewBottom}>
-              <a className={styles.previewCta} href="#rezerwacja" aria-label="Umów wizytę dla tej usługi">
-                Umów wizytę <span aria-hidden="true">→</span>
-              </a>
-            </div>
           </article>
 
         </div>

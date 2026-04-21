@@ -208,26 +208,26 @@
   text-decoration: none;
   color: #ffffff;
   font-weight: 700;
-  font-size: 0.90rem;
-  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   min-height: 40px;
-  padding: 9px 18px;
-  border-radius: r.$pill;
-  border: 1.5px solid c.$accent;
+  padding: 9px 20px;
+  border-radius: 0;
+  border: 2px solid c.$accent;
   background: c.$accent;
-  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
   @include m.focusRing;
   @include m.reduceMotion;
 
   &:hover {
     background: c.$accent-hover;
     border-color: c.$accent-hover;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(176, 28, 46, 0.28);
+    transform: translateY(-2px);
   }
 
   &:active {
-    transform: translateY(0) scale(0.99);
+    transform: translateY(0);
   }
 }
 

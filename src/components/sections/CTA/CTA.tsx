@@ -63,12 +63,10 @@ export function CTA({ onBook }: Props) {
           <div className={styles.right}>
             <div className={styles.mapWrap}>
               <iframe
-                src="https://maps.google.com/maps?q=+Zlote+Tarasy,+Warszawa&z=17&output=embed&hl=pl"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=20.994%2C52.228%2C21.014%2C52.238&layer=mapnik&marker=52.2330%2C21.0040"
                 className={styles.map}
-                title="Lokalizacja BarberSpace — ul. Złota 59, Warszawa"
+                title="Lokalizacja BarberSpace — Warszawa Centrum"
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
               />
             </div>
           </div>

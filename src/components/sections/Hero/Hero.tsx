@@ -28,7 +28,6 @@ export function Hero({ onBook }: HeroProps) {
       id="top"
       aria-label="Sekcja główna"
     >
-      {/* Background image via picture element for responsive loading */}
       <picture className={styles.bgPicture} aria-hidden="true">
         <source media="(max-width: 800px)" srcSet={heroBgSm} />
         <img
@@ -41,10 +40,8 @@ export function Hero({ onBook }: HeroProps) {
         />
       </picture>
 
-      {/* Multi-layer overlay */}
       <div className={styles.overlay} aria-hidden="true" />
 
-      {/* Main content */}
       <div className={styles.content}>
         <div className={styles.inner}>
 
@@ -56,12 +53,14 @@ export function Hero({ onBook }: HeroProps) {
             <span>Premium Studio</span>
           </div>
 
+          <span className={styles.eyebrow}>Twój wygląd — nasza pasja.</span>
+
           <h1 className={styles.title} aria-label="BarberSpace — Twój wygląd, nasza pasja">
             <span className={styles.titleLine1} aria-hidden="true">Barber</span>
             <span className={styles.titleLine2} aria-hidden="true">Space.</span>
           </h1>
 
-          <p className={styles.tagline}>Twój wygląd,&nbsp;&nbsp;nasza pasja.</p>
+          <div className={styles.ornament} aria-hidden="true" />
 
           <p className={styles.lead}>
             Precyzyjne strzyżenie, dopracowana broda — bez kompromisów.
@@ -93,9 +92,8 @@ export function Hero({ onBook }: HeroProps) {
         </div>
       </div>
 
-      {/* Stats bar — fixed at bottom of hero */}
       <div className={styles.statsBar} ref={ref}>
-        <div className={styles.inner}>
+        <div className={styles.statsInner}>
           <div
             className={styles.stats}
             aria-label="Dane salonu"
