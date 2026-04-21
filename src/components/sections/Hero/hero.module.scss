@@ -35,6 +35,23 @@
   100% { opacity: 1; text-shadow: none; }
 }
 
+@keyframes fromRight {
+  from {
+    transform: translateX(1000px); 
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fromLeft {
+  from {
+    transform: translateX(-1000px); 
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 // ─── Reduced motion ───────────────────────────────────────────────────────────
 
 @media (prefers-reduced-motion: reduce) {
@@ -162,7 +179,7 @@
   text-transform: uppercase;
   color: #ffffff;
   line-height: 0.90;
-  animation: fromLeft 900ms cubic-bezier(0.16, 1, 0.3, 1) 450ms both;
+  animation: fromLeft 1300ms cubic-bezier(0.16, 1, 0.3, 1) 450ms both;
 }
 
 .titleLine2 {
@@ -173,8 +190,11 @@
   text-transform: uppercase;
   color: c.$accent;
   line-height: 0.90;
-  animation: fromRight 900ms cubic-bezier(0.16, 1, 0.3, 1) 600ms both;
+  animation: fromRight 1300ms cubic-bezier(0.16, 1, 0.3, 1) 600ms both;
 }
+
+
+
 
 // ─── Ornament line ───────────────────────────────────────────────────────────
 

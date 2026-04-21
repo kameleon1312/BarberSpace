@@ -45,14 +45,6 @@ export function Hero({ onBook }: HeroProps) {
       <div className={styles.content}>
         <div className={styles.inner}>
 
-          <div className={styles.badge} aria-hidden="true">
-            <span>Od 2018</span>
-            <span className={styles.badgeDot}>·</span>
-            <span>Warszawa</span>
-            <span className={styles.badgeDot}>·</span>
-            <span>Premium Studio</span>
-          </div>
-
           <span className={styles.eyebrow}>Twój wygląd — nasza pasja.</span>
 
           <h1 className={styles.title} aria-label="BarberSpace — Twój wygląd, nasza pasja">
