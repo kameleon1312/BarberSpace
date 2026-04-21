@@ -5,8 +5,8 @@ import { useInView } from "../../../hooks/useInView";
 
 import hairBgSm from "../../../assets/images/wlosy.jpg?w=700";
 import hairBgLg from "../../../assets/images/wlosy.jpg?w=1400";
-import beardBgSm from "../../../assets/images/maszynka.jpg?w=700";
-import beardBgLg from "../../../assets/images/maszynka.jpg?w=1400";
+import beardBgSm from "../../../assets/images/broda.jpg?w=700";
+import beardBgLg from "../../../assets/images/broda.jpg?w=1400";
 import comboBgSm from "../../../assets/images/fryzjer.jpg?w=700";
 import comboBgLg from "../../../assets/images/fryzjer.jpg?w=1400";
 

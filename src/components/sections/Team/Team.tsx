@@ -2,6 +2,14 @@ import styles from "./team.module.scss";
 import { team } from "../../../data/content";
 import { useInView } from "../../../hooks/useInView";
 
+import dominikImg from "../../../assets/images/dominik.jpg?w=600";
+import kamilImg from "../../../assets/images/kamil.jpg?w=600";
+
+const memberPhotos: Record<string, string> = {
+  Marek:   dominikImg,
+  Kuba:    kamilImg,
+};
+
 export function Team() {
   const { ref, inView } = useInView<HTMLElement>();
   const rv = inView ? "visible" : "hidden";
@@ -26,31 +34,44 @@ export function Team() {
         </header>
 
         <div className={styles.grid}>
-          {team.map((member, i) => (
-            <article
-              key={member.name}
-              className={styles.card}
-              data-reveal={rv}
-              style={{ "--reveal-delay": `${100 + i * 130}ms` } as React.CSSProperties}
-            >
-              <div className={styles.avatar} aria-hidden="true">
-                <span className={styles.initial}>{member.name[0]}</span>
-              </div>
-
-              <div className={styles.info}>
-                <div className={styles.nameRow}>
-                  <h3 className={styles.name}>{member.name}</h3>
+          {team.map((member, i) => {
+            const photo = memberPhotos[member.name];
+            return (
+              <article
+                key={member.name}
+                className={styles.card}
+                data-reveal={rv}
+                style={{ "--reveal-delay": `${100 + i * 150}ms` } as React.CSSProperties}
+              >
+                <div className={styles.photoWrap}>
+                  {photo ? (
+                    <img
+                      src={photo}
+                      alt={`${member.name} — ${member.role}`}
+                      className={styles.photo}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <div className={styles.photoFallback} aria-hidden="true">
+                      <span className={styles.initial}>{member.name[0]}</span>
+                    </div>
+                  )}
                   <div className={styles.expBadge} aria-label={`Doświadczenie: ${member.years} lat`}>
                     <span className={styles.expNum} aria-hidden="true">{member.years}</span>
                     <span className={styles.expUnit} aria-hidden="true">lat</span>
                   </div>
                 </div>
-                <p className={styles.role}>{member.role}</p>
-                <p className={styles.specialty}>{member.specialty}</p>
-                <p className={styles.bio}>{member.bio}</p>
-              </div>
-            </article>
-          ))}
+
+                <div className={styles.info}>
+                  <h3 className={styles.name}>{member.name}</h3>
+                  <p className={styles.role}>{member.role}</p>
+                  <p className={styles.specialty}>{member.specialty}</p>
+                  <p className={styles.bio}>{member.bio}</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

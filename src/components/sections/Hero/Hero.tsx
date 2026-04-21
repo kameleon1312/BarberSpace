@@ -1,6 +1,6 @@
 import styles from "./hero.module.scss";
-import fryzjerSm from "../../../assets/images/fryzjer.jpg?w=600";
-import fryzjer from "../../../assets/images/fryzjer.jpg?w=1200";
+import heroBg from "../../../assets/images/hero.jpg?w=1600";
+import heroBgSm from "../../../assets/images/hero.jpg?w=800";
 import { useInView } from "../../../hooks/useInView";
 import { useCounters } from "../../../hooks/useCounters";
 import { useMagnetic } from "../../../hooks/useMagnetic";
@@ -10,34 +10,58 @@ type HeroProps = {
 };
 
 const STAT_CONFIGS = [
-  { target: 4.9, duration: 1200, decimals: 1 },
-  { target: 30,  duration: 900  },
-  { target: 70,  duration: 1100 },
-  { target: 20,  duration: 800  },
+  { target: 4.9, duration: 1400, decimals: 1 },
+  { target: 30,  duration: 1000 },
+  { target: 70,  duration: 1200 },
+  { target: 20,  duration: 900  },
 ] as const;
 
 export function Hero({ onBook }: HeroProps) {
-  const { ref, inView } = useInView<HTMLElement>({ threshold: 0.15 });
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.05 });
   const magnetic = useMagnetic(0.28);
 
   const [rating, timeMin, timeMax, bookSec] = useCounters(STAT_CONFIGS, inView);
 
   return (
-    <section className={styles.hero} id="top" aria-label="Sekcja główna" ref={ref}>
-      <div className={styles.inner}>
+    <section
+      className={styles.hero}
+      id="top"
+      aria-label="Sekcja główna"
+    >
+      {/* Background image via picture element for responsive loading */}
+      <picture className={styles.bgPicture} aria-hidden="true">
+        <source media="(max-width: 800px)" srcSet={heroBgSm} />
+        <img
+          src={heroBg}
+          alt=""
+          className={styles.bgImg}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+        />
+      </picture>
 
-        <div className={styles.copy}>
-          <p className={styles.kicker} aria-hidden="true">
-            <span className={styles.kickerNum}>01#</span>
-            Na rynku barberskim od 2018 roku!
-          </p>
+      {/* Multi-layer overlay */}
+      <div className={styles.overlay} aria-hidden="true" />
 
-          <h1 className={styles.title}>
-            BarberSpace.
-            <span className={styles.titleBreak}>
-              Twój wygląd,<br />nasza pasja.
-            </span>
+      {/* Main content */}
+      <div className={styles.content}>
+        <div className={styles.inner}>
+
+          <div className={styles.badge} aria-hidden="true">
+            <span>Od 2018</span>
+            <span className={styles.badgeDot}>·</span>
+            <span>Warszawa</span>
+            <span className={styles.badgeDot}>·</span>
+            <span>Premium Studio</span>
+          </div>
+
+          <h1 className={styles.title} aria-label="BarberSpace — Twój wygląd, nasza pasja">
+            <span className={styles.titleLine1} aria-hidden="true">Barber</span>
+            <span className={styles.titleLine2} aria-hidden="true">Space.</span>
           </h1>
+
+          <p className={styles.tagline}>Twój wygląd,&nbsp;&nbsp;nasza pasja.</p>
 
           <p className={styles.lead}>
             Precyzyjne strzyżenie, dopracowana broda — bez kompromisów.
@@ -61,56 +85,56 @@ export function Hero({ onBook }: HeroProps) {
                 Umów wizytę
               </a>
             )}
-
             <a className={styles.secondary} href="#cennik">
               Zobacz cennik
             </a>
           </div>
 
-          <div className={styles.stats} aria-label="Szybkie informacje" data-reveal={inView ? "visible" : "hidden"}>
+        </div>
+      </div>
+
+      {/* Stats bar — fixed at bottom of hero */}
+      <div className={styles.statsBar} ref={ref}>
+        <div className={styles.inner}>
+          <div
+            className={styles.stats}
+            aria-label="Dane salonu"
+            data-reveal={inView ? "visible" : "hidden"}
+          >
             <div className={styles.stat}>
               <div className={styles.valRow}>
                 <span className={styles.val}>{rating}</span>
                 <span className={styles.statUnit}>/5</span>
               </div>
-              <span className={styles.top}>Ocena klientów</span>
+              <span className={styles.statLabel}>Ocena klientów</span>
             </div>
+            <div className={styles.statDivider} aria-hidden="true" />
             <div className={styles.stat}>
               <div className={styles.valRow}>
                 <span className={styles.val}>{timeMin}–{timeMax}</span>
                 <span className={styles.statUnit}>min</span>
               </div>
-              <span className={styles.top}>Czas usługi</span>
+              <span className={styles.statLabel}>Czas usługi</span>
             </div>
+            <div className={styles.statDivider} aria-hidden="true" />
             <div className={styles.stat}>
               <div className={styles.valRow}>
                 <span className={styles.val}>~{bookSec}</span>
                 <span className={styles.statUnit}>sek</span>
               </div>
-              <span className={styles.top}>Rezerwacja online</span>
+              <span className={styles.statLabel}>Rezerwacja online</span>
+            </div>
+            <div className={styles.statDivider} aria-hidden="true" />
+            <div className={styles.stat}>
+              <div className={styles.valRow}>
+                <span className={styles.val}>84+</span>
+              </div>
+              <span className={styles.statLabel}>Opinii Google</span>
             </div>
           </div>
         </div>
-
-        <div className={styles.visual}>
-          <div className={styles.showcase}>
-            <img
-              src={fryzjer}
-              srcSet={`${fryzjerSm} 600w, ${fryzjer} 1200w`}
-              sizes="(max-width: 900px) 100vw, 50vw"
-              alt="Barber podczas precyzyjnego strzyżenia w BarberSpace"
-              className={styles.image}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
-            <div className={styles.frame} aria-hidden="true" />
-            <div className={styles.tag} aria-hidden="true">Premium Studio</div>
-            <div className={styles.sweep} aria-hidden="true" />
-          </div>
-        </div>
-
       </div>
+
     </section>
   );
 }

@@ -2,12 +2,14 @@ import styles from "./gallery.module.scss";
 import fryzjer from "../../../assets/images/fryzjer.jpg?w=900";
 import maszynka from "../../../assets/images/maszynka.jpg?w=900";
 import wlosy from "../../../assets/images/wlosy.jpg?w=900";
+import broda from "../../../assets/images/broda.jpg?w=900";
 import { useInView } from "../../../hooks/useInView";
 
 const items = [
   { num: "01", label: "Skin Fade", img: fryzjer },
-  { num: "02", label: "Beard Shaping", img: maszynka },
+  { num: "02", label: "Beard Shaping", img: broda },
   { num: "03", label: "Classic Cut", img: wlosy },
+  { num: "04", label: "Fade Detail", img: maszynka },
 ];
 
 export function Gallery() {
@@ -39,7 +41,7 @@ export function Gallery() {
               key={item.num}
               className={styles.item}
               data-reveal={rv}
-              style={{ "--reveal-delay": `${80 + i * 110}ms` } as React.CSSProperties}
+              style={{ "--reveal-delay": `${60 + i * 100}ms` } as React.CSSProperties}
             >
               <div className={styles.imgWrap}>
                 <img
