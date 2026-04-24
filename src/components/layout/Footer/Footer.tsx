@@ -10,7 +10,7 @@ export function Footer() {
         <div className={styles.left}>
           <div className={styles.brandLine}>{brand.name}</div>
           <div className={styles.muted}>
-            © {year} BarberSpace
+            © {year} BarberSpace by Szymon Pochopień. Wszelkie prawa zastrzeżone.
           </div>
         </div>
 
