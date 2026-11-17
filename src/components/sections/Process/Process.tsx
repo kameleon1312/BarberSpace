@@ -10,17 +10,16 @@ export function Process() {
     <section
       className={styles.section}
       id="proces"
-      aria-label="Jak to działa"
+      aria-label="Przebieg wizyty"
       ref={ref}
     >
       <div className={styles.inner}>
         <header className={styles.header} data-reveal={rv}>
           <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowNum}>03</span>
-            Jak to działa
+            Przebieg wizyty
           </p>
           <h2 className={styles.title}>
-            Proste jak<br />powinno być.
+            Od rezerwacji<br />do fotela.
           </h2>
         </header>
 

@@ -10,7 +10,20 @@ import type {
 
 export const brand = {
   name: "BarberSpace",
-  tagline: "Night Studio • Editorial Cuts",
+  tagline: "Barber · Warszawa Centrum",
+};
+
+export const salon = {
+  phone: "+48 123 123 123",
+  phoneHref: "tel:+48123123123",
+  email: "kontakt@barberspace.pl",
+  address: "Złote Tarasy, Warszawa",
+  mapsUrl: "https://www.google.com/maps/dir/?api=1&destination=Zlote+Tarasy+Warszawa",
+  lat: 52.2306,
+  lng: 21.0027,
+  hoursLabel: "Pn–Sb · 10:00–20:00",
+  openHour: 10,
+  closeHour: 20,
 };
 
 export const nav: NavItem[] = [
@@ -23,42 +36,26 @@ export const nav: NavItem[] = [
 export const services: ServiceItem[] = [
   {
     title: "Strzyżenie",
-    desc: "Precyzyjne proporcje, czyste linie, pełna kontrola detalu. Bez pośpiechu.",
+    desc: "Konsultacja, cięcie nożyczkami lub maszynką, mycie i stylizacja.",
     meta: "30–45 min",
   },
   {
     title: "Broda",
-    desc: "Kontur + pielęgnacja. Wykończenie, które robi różnicę w codziennym stylu.",
+    desc: "Trymowanie, kontur brzytwą, gorący ręcznik i olejek.",
     meta: "20–35 min",
   },
   {
     title: "Combo",
-    desc: "Włosy + broda w jednym rytmie. Spójność, która wygląda premium z każdej strony.",
+    desc: "Włosy i broda w jednej wizycie, jeden spójny efekt.",
     meta: "50–70 min",
   },
 ];
 
 export const processSteps: ProcessStep[] = [
-  {
-    num: "01",
-    title: "Rezerwacja",
-    desc: "Wybierz usługę i termin online. Zajmuje 20 sekund — bez telefonu, bez kolejek.",
-  },
-  {
-    num: "02",
-    title: "Przyjedź",
-    desc: "Twój termin to Twój czas. Wchodzimy od razu — bez czekania na wolne miejsce.",
-  },
-  {
-    num: "03",
-    title: "Konsultacja",
-    desc: "Porozmawiamy o efekcie zanim zaczniemy. Żadnych domysłów, żadnych niespodzianek.",
-  },
-  {
-    num: "04",
-    title: "Gotowy look",
-    desc: "Precyzja, detal i stylizacja na koniec. Wychodzisz gotowy.",
-  },
+  { num: "1", title: "Wybierasz termin", desc: "Usługa, barber i godzina. Zajmuje pół minuty." },
+  { num: "2", title: "Dostajesz potwierdzenie", desc: "Dzwonimy lub piszemy, żeby potwierdzić wizytę." },
+  { num: "3", title: "Siadasz od razu", desc: "Pracujemy na rezerwacje, więc nie czekasz w kolejce." },
+  { num: "4", title: "Płacisz po wizycie", desc: "Gotówka lub karta, na miejscu." },
 ];
 
 export const pricing: PriceItem[] = [
@@ -68,10 +65,10 @@ export const pricing: PriceItem[] = [
     name: "Combo",
     time: "70 min",
     price: "150 zł",
-    note: "Najczęstszy wybór",
+    note: "Najczęściej wybierane",
     featured: true,
   },
-  { name: "Fade / Skin", time: "45 min", price: "110 zł", note: "Dokładne cieniowanie" },
+  { name: "Skin Fade", time: "55 min", price: "110 zł", note: "Cieniowanie do skóry" },
 ];
 
 export const testimonials: TestimonialItem[] = [
@@ -162,11 +159,11 @@ export const bookingServices = [
     durationMin: 75,
     priceFrom: 150,
     priceTo: 210,
-    desc: "Komplet w stylu night studio.",
+    desc: "Włosy i broda w jednej wizycie.",
   },
   {
     id: "fade",
-    name: "Skin Fade (premium)",
+    name: "Skin Fade",
     durationMin: 55,
     priceFrom: 110,
     priceTo: 160,

@@ -1,0 +1,62 @@
+@use "../../../styles/tools/mixins" as m;
+@use "../../../styles/tokens/colors" as c;
+@use "../../../styles/tokens/z" as z;
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: z.$header;
+  display: flex;
+  gap: 10px;
+  padding: 10px max(14px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  transform: translateY(110%);
+  transition: transform 340ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  @include m.reduceMotion;
+
+  &[data-show="true"] { transform: none; }
+
+  // thin moving pole on the top edge
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: -1px;
+    @include m.pole(3px);
+  }
+
+  @media (min-width: 860px) { display: none; }
+}
+
+.call {
+  flex: none;
+  width: 56px;
+  min-height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: c.$text;
+  @include m.focusRing;
+  &:active { background: rgba(255, 255, 255, 0.1); }
+}
+
+.book {
+  @include m.btn-primary;
+  flex: 1;
+  min-height: 56px;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 16px;
+}
+
+.bookLabel { font-size: 1rem; line-height: 1; }
+.bookStatus {
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+  opacity: 0.88;
+}

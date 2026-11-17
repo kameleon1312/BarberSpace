@@ -21,3 +21,17 @@ $gold-bg: rgba(212, 150, 74, 0.12);
 
 $glow-a: rgba(196, 30, 50, 0.18);
 $glow-b: rgba(212, 150, 74, 0.12);
+
+// ─── Light "paper" palette — contrast sections & booking panel ───────────────
+$paper:    #F2ECE0;
+$paper-2:  #E8E0D0;
+$paper-3:  #FBF8F2;
+$p-text:   #17130F;
+$p-text-2: rgba(23, 19, 15, 0.70);
+$p-muted:  rgba(23, 19, 15, 0.52);
+$p-line:   rgba(23, 19, 15, 0.12);
+$p-line-strong: rgba(23, 19, 15, 0.30);
+
+// Brass — warm secondary accent (on dark: highlights; on paper: use $brass-dk)
+$brass:    #D9A45B;
+$brass-dk: #8A5A16;

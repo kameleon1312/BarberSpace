@@ -36,12 +36,11 @@ export function Services() {
 
         <header className={styles.header} data-reveal={rv}>
           <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowNum}>02</span>
             Usługi
           </p>
-          <h2 className={styles.title}>Wybierz usługę.<br />Resztę dowozimy my.</h2>
+          <h2 className={styles.title}>Co robimy.</h2>
           <p className={styles.subtitle}>
-            Premium strzyżenie i broda. Szybki wybór, perfekcyjny efekt, zero chaosu.
+            Trzy usługi, bez dodatków, których nie potrzebujesz.
           </p>
         </header>
 
@@ -65,7 +64,16 @@ export function Services() {
                     <div className={styles.listBody}>
                       <span className={styles.listTitle}>{s.title}</span>
                       <span className={styles.listMeta}>{s.meta}</span>
+                      <span className={styles.listDesc}>{s.desc}</span>
                     </div>
+                    <img
+                      className={styles.thumb}
+                      src={(bgByTitle[s.title] ?? bgByTitle["Strzyżenie"]!).sm}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <span className={styles.listArrow} aria-hidden="true">→</span>
                   </button>
                 </li>
@@ -74,12 +82,12 @@ export function Services() {
 
             <a
               className={styles.cta}
-              href="#rezerwacja"
-              aria-label="Przejdź do rezerwacji"
+              href="#cennik"
+              aria-label="Zobacz cennik"
               data-reveal={rv}
               style={{ "--reveal-delay": "420ms" } as React.CSSProperties}
             >
-              Rezerwuj termin
+              Zobacz cennik
               <span className={styles.ctaArrow} aria-hidden="true">→</span>
             </a>
           </div>

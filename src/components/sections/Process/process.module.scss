@@ -17,6 +17,7 @@
 }
 
 .eyebrow {
+  @include m.eyebrow;
   margin: 0 0 14px;
   display: flex;
   align-items: baseline;

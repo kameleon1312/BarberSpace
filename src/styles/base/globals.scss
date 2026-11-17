@@ -1,4 +1,5 @@
 @use "../tokens/colors" as c;
+@use "../tools/mixins" as m;
 @use "../tokens/typography" as t;
 
 :root { color-scheme: dark; }
@@ -69,14 +70,14 @@ section {
 // Scroll reveal — elements start hidden, become visible on intersection
 [data-reveal] {
   transition:
-    opacity  680ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity  560ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-reveal="hidden"] {
   opacity: 0;
-  transform: translateY(52px);
+  transform: translateY(26px);
   will-change: opacity, transform;
 }
 
@@ -94,3 +95,16 @@ section {
     will-change: auto !important;
   }
 }
+
+// Room for the mobile action bar
+@media (max-width: 859px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+}
+
+// Barber-pole divider between sections
+.pole {
+  @include m.pole(6px);
+}
+
+// Tap feedback everywhere on touch
+button, a { -webkit-tap-highlight-color: transparent; }

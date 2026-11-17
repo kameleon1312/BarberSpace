@@ -3,10 +3,49 @@ import emailjs from "@emailjs/browser";
 import { bookingServices } from "../data/content";
 import type { BookingService, BookingServiceId } from "../data/content";
 
+export type BarberId = "any" | "marek" | "kuba";
+
+export type DayOption = { iso: string; weekday: string; day: number; month: string; isToday: boolean };
+
+export const barbers: { id: BarberId; name: string; role: string }[] = [
+  { id: "any", name: "Dowolny", role: "Najbliższy termin" },
+  { id: "marek", name: "Marek", role: "Senior Barber" },
+  { id: "kuba", name: "Kuba", role: "Barber" },
+];
+
+const WEEKDAYS = ["Nd", "Pn", "Wt", "Śr", "Cz", "Pt", "Sb"];
+const MONTHS = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wrz", "paź", "lis", "gru"];
+
+function toIso(d: Date) {
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+// Next N open days (salon works Mon–Sat)
+function buildDays(count = 14): DayOption[] {
+  const out: DayOption[] = [];
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  const todayIso = toIso(d);
+  while (out.length < count) {
+    if (d.getDay() !== 0) {
+      out.push({ iso: toIso(d), weekday: WEEKDAYS[d.getDay()], day: d.getDate(), month: MONTHS[d.getMonth()], isToday: toIso(d) === todayIso });
+    }
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+
+function isPast(dateIso: string, time: string) {
+  const [h, m] = time.split(":").map(Number);
+  const [y, mo, da] = dateIso.split("-").map(Number);
+  return new Date(y, mo - 1, da, h, m).getTime() <= Date.now() + 30 * 60 * 1000;
+}
+
 export type FormState = {
   serviceId: BookingServiceId;
   date: string;
   time: string;
+  barber: BarberId;
   name: string;
   phone: string;
   note: string;
@@ -27,8 +66,10 @@ export type UseBookingFormReturn = {
   priceLabel: string;
   canSubmit: boolean;
   today: string;
+  days: DayOption[];
   slots: string[];
-  serviceSelectRef: React.MutableRefObject<HTMLSelectElement | null>;
+  isSlotDisabled: (time: string) => boolean;
+  serviceSelectRef: React.MutableRefObject<HTMLDivElement | null>;
   submit: (e: React.FormEvent) => Promise<void>;
 };
 
@@ -49,6 +90,23 @@ function buildTimeSlots(startHour = 10, endHour = 20, stepMin = 30) {
   return slots;
 }
 
+const CONTACT_KEY = "bs-contact";
+
+function loadContact(): { name: string; phone: string } {
+  try {
+    const raw = localStorage.getItem(CONTACT_KEY);
+    if (raw) {
+      const v = JSON.parse(raw) as { name?: string; phone?: string };
+      return { name: String(v.name ?? "").slice(0, 80), phone: String(v.phone ?? "").slice(0, 20) };
+    }
+  } catch { /* storage unavailable */ }
+  return { name: "", phone: "" };
+}
+
+function saveContact(name: string, phone: string) {
+  try { localStorage.setItem(CONTACT_KEY, JSON.stringify({ name, phone })); } catch { /* ignore */ }
+}
+
 export function useBookingForm(open: boolean, preselectServiceId?: BookingServiceId): UseBookingFormReturn {
   const today = useMemo(() => {
     const d = new Date();
@@ -56,13 +114,14 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
   }, []);
 
   const slots = useMemo(() => buildTimeSlots(10, 20, 30), []);
+  const days = useMemo(() => buildDays(14), []);
 
   const [form, setForm] = useState<FormState>(() => ({
     serviceId: bookingServices[0].id,
-    date: today,
-    time: "12:00",
-    name: "",
-    phone: "",
+    date: days[0].iso,
+    time: "",
+    barber: "any",
+    ...loadContact(),
     note: "",
     website: "",
   }));
@@ -70,7 +129,7 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
   const [status, setStatus] = useState<SendStatus>("idle");
   const [phoneError, setPhoneError] = useState(false);
 
-  const serviceSelectRef = useRef<HTMLSelectElement | null>(null);
+  const serviceSelectRef = useRef<HTMLDivElement | null>(null);
   const openedAtRef = useRef<number>(0);
 
   useEffect(() => {
@@ -101,6 +160,8 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
     service.priceFrom === service.priceTo
       ? `${service.priceFrom} zł`
       : `${service.priceFrom}–${service.priceTo} zł`;
+
+  const isSlotDisabled = (time: string) => isPast(form.date, time);
 
   const isPhoneValid = PHONE_RE.test(form.phone.trim());
 
@@ -133,6 +194,7 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
       booking_time: form.time,
       duration: `${service.durationMin} min`,
       price: priceLabel,
+      barber: barbers.find((b) => b.id === form.barber)?.name ?? "Dowolny",
       client_name: form.name,
       client_phone: form.phone,
       client_note: form.note || "—",
@@ -145,6 +207,7 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
         templateParams,
         { publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY }
       );
+      saveContact(form.name.trim(), form.phone.trim());
       setStatus("success");
     } catch {
       setStatus("error");
@@ -152,7 +215,12 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
   };
 
   const setField = <K extends keyof FormState>(key: K, value: FormState[K]) =>
-    setForm((p) => ({ ...p, [key]: value }));
+    setForm((p) => {
+      const next = { ...p, [key]: value };
+      // Drop a chosen time that is already in the past on the newly picked day
+      if (key === "date" && next.time && isPast(next.date, next.time)) next.time = "";
+      return next;
+    });
 
   return {
     form,
@@ -166,7 +234,9 @@ export function useBookingForm(open: boolean, preselectServiceId?: BookingServic
     priceLabel,
     canSubmit,
     today,
+    days,
     slots,
+    isSlotDisabled,
     serviceSelectRef,
     submit,
   };

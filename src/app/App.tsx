@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { Header } from "../components/layout/Header/Header";
 import { Footer } from "../components/layout/Footer/Footer";
-import { Ticker } from "../components/layout/Ticker/Ticker";
+import { MobileBar } from "../components/layout/MobileBar/MobileBar";
 
 import { Hero } from "../components/sections/Hero/Hero";
 import { Services } from "../components/sections/Services/Services";
@@ -51,12 +51,11 @@ export default function App() {
 
       <main id="main">
         <Hero onBook={() => openBooking()} />
-        <Ticker />
+        <div className="pole" aria-hidden="true" />
         <Services />
         <Process />
         <Pricing onPick={(id) => openBooking(id)} />
         <Gallery />
-        <Ticker />
         <Testimonials />
         <Team />
         <FAQ />
@@ -64,6 +63,8 @@ export default function App() {
       </main>
 
       <Footer />
+
+      <MobileBar onBook={() => openBooking()} hidden={bookingOpen} />
 
       {drawerMounted && (
         <Suspense fallback={null}>

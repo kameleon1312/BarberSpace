@@ -1,14 +1,13 @@
 @use "../../../styles/tools/mixins" as m;
 @use "../../../styles/tokens/colors" as c;
-@use "../../../styles/tokens/radii" as r;
-@use "../../../styles/tokens/shadows" as s;
 @use "../../../styles/tokens/z" as z;
 @use "../../../styles/tokens/typography" as t;
 
 .backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(12, 12, 12, 0.50);
+  background: rgba(8, 8, 8, 0.62);
+  backdrop-filter: blur(3px);
   opacity: 0;
   pointer-events: none;
   transition: opacity 220ms ease;
@@ -16,140 +15,371 @@
   @include m.reduceMotion;
 }
 
-.backdropOpen {
-  opacity: 1;
-  pointer-events: auto;
-}
+.backdropOpen { opacity: 1; pointer-events: auto; }
 
 .drawer {
   position: fixed;
   top: 0;
   right: 0;
   height: 100dvh;
-  width: min(420px, 92vw);
-  background: #151515;
-  border-left: 3px solid c.$accent;
-  box-shadow: -4px 0 48px rgba(0, 0, 0, 0.55);
+  width: min(500px, 100vw);
+  background: c.$paper;
+  color: c.$p-text;
+  box-shadow: -12px 0 60px rgba(0, 0, 0, 0.55);
   transform: translateX(102%);
   visibility: hidden;
-  transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 260ms;
+  transition: transform 280ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 280ms;
   z-index: calc(z.$header + 25);
-  padding: 16px;
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   @include m.reduceMotion;
+}
+
+.grab {
+  display: none;
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  margin-left: -20px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  @media (max-width: 639px) { display: block; }
+}
+
+.progress {
+  flex: none;
+  height: 4px;
+  background: c.$p-line;
+  span {
+    display: block;
+    height: 100%;
+    transition: width 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    @include m.pole(4px);
+    @media (prefers-reduced-motion: reduce) { transition: none; }
+  }
 }
 
 .drawerOpen {
   transform: translateX(0);
   visibility: visible;
-  transition: transform 260ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 0ms;
+  transition: transform 280ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 0ms;
 }
 
+// Phones: bottom sheet, swipe the header down to close
+@media (max-width: 639px) {
+  .drawer {
+    top: auto;
+    bottom: 0;
+    height: 94dvh;
+    width: 100%;
+    border-radius: 22px 22px 0 0;
+    box-shadow: 0 -12px 60px rgba(0, 0, 0, 0.6);
+    transform: translateY(104%);
+    transition: transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 360ms;
+  }
+  .drawerOpen { transform: translateY(var(--drag, 0px)); transition: transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1), visibility 0ms 0ms; }
+  .drawer[data-dragging="true"] { transition: none; }
+  .top { padding-top: 26px; touch-action: none; }
+}
+
+
+// ─── Header (dark band — ties back to the site theme) ───────────────────────
 .top {
+  flex: none;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 6px 2px 12px;
-  border-bottom: 1px solid c.$line;
-  margin-bottom: 4px;
+  padding: 20px 22px;
+  background: c.$ink;
+  color: c.$text;
+  position: relative;
 }
-
-.topText { display: grid; gap: 4px; }
 
 .title {
   font-family: t.$font-display;
-  font-weight: 800;
+  font-size: 1.7rem;
   letter-spacing: t.$ls-display;
-  font-size: 1.15rem;
   text-transform: uppercase;
-  color: c.$text;
+  line-height: 1;
 }
 
 .sub {
-  color: c.$muted;
-  font-size: 0.88rem;
+  margin-top: 6px;
+  font-size: 0.82rem;
+  color: c.$brass;
+  font-weight: 500;
 }
 
 .close {
+  flex: none;
   width: 44px;
   height: 44px;
-  border-radius: 8px;
-  border: 1px solid c.$line;
-  background: c.$surface;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
   color: c.$text;
   cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 0.9rem;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  transition: background 160ms ease, border-color 160ms ease;
   @include m.focusRing;
   @include m.reduceMotion;
 
-  &:hover {
-    background: c.$surface-2;
-    border-color: c.$line-strong;
-    transform: translateY(-1px);
+  &:hover { background: rgba(255, 255, 255, 0.10); border-color: rgba(255, 255, 255, 0.5); }
+}
+
+// ─── Form layout: scrolling body + sticky footer ────────────────────────────
+.form {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 22px 22px 8px;
+  display: grid;
+  gap: 26px;
+  align-content: start;
+}
+
+.group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.legend {
+  padding: 0;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: c.$p-text;
+}
+
+.step {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: c.$p-text;
+  color: c.$paper;
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.74rem;
+  letter-spacing: 0;
+}
+
+.srOnly {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+// Shared selectable-tile look
+.serviceCard,
+.barberCard,
+.day,
+.slot {
+  position: relative;
+  background: c.$paper-3;
+  border: 1.5px solid c.$p-line;
+  border-radius: 12px;
+  cursor: pointer;
+  color: c.$p-text;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease, box-shadow 140ms ease;
+  @include m.reduceMotion;
+
+  &:hover { border-color: c.$p-line-strong; }
+  &:has(:focus-visible) { outline: 2px solid c.$accent; outline-offset: 2px; }
+
+  &.active {
+    background: c.$p-text;
+    border-color: c.$p-text;
+    color: c.$paper;
+    box-shadow: 0 8px 20px rgba(23, 19, 15, 0.25);
   }
 }
 
-.summary {
-  background: c.$surface;
-  border: 1px solid c.$line;
-  padding: 12px 14px;
-  border-radius: r.$lg;
-  display: grid;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.summaryMain { display: grid; gap: 4px; }
-
-.summaryName {
-  font-family: t.$font-display;
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: t.$ls-display;
-  text-transform: uppercase;
-  color: c.$text;
-}
-
-.summaryDesc {
-  color: c.$muted;
-  font-size: 0.88rem;
-}
-
-.summaryMeta {
+// Services — 2×2
+.services {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.pill {
-  border-radius: r.$md;
-  border: 1px solid c.$line;
-  background: rgba(255, 255, 255, 0.06);
-  padding: 10px 12px;
+.serviceCard {
+  padding: 12px 14px;
+  display: grid;
+  gap: 2px;
+  align-content: start;
 }
 
-.pillTop {
-  display: block;
-  color: c.$muted;
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.pillVal {
-  display: block;
+.serviceName { font-weight: 700; font-size: 0.95rem; line-height: 1.25; }
+.serviceMeta { font-size: 0.8rem; opacity: 0.62; }
+.servicePrice {
+  margin-top: 6px;
   font-family: t.$font-accent;
   font-weight: 700;
-  font-size: 1.05rem;
-  color: c.$text;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.active .servicePrice { color: c.$brass; }
+
+// Barbers — 3 across
+.barbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.barberCard {
+  padding: 12px 8px;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: c.$paper-2;
+  font-family: t.$font-display;
+  font-size: 1.2rem;
+  color: c.$p-text;
+  margin-bottom: 4px;
+}
+.active .avatar { background: c.$brass; color: c.$p-text; }
+
+.barberName { font-weight: 700; font-size: 0.9rem; }
+.barberRole { font-size: 0.72rem; opacity: 0.6; line-height: 1.2; }
+
+// Day strip — horizontal scroll
+.days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 2px 14px;
+  margin: 0 -2px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.day {
+  flex: none;
+  width: 58px;
+  padding: 9px 0;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  scroll-snap-align: start;
+}
+
+.dayWd { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.6; }
+.dayNum { font-family: t.$font-display; font-size: 1.7rem; line-height: 1.05; }
+.dayMo { font-size: 0.7rem; opacity: 0.6; }
+.active .dayWd, .active .dayMo { opacity: 0.8; color: c.$brass; }
+
+// Time slots
+.slots {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.slot {
+  padding: 10px 0;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.slotOff {
+  cursor: not-allowed;
+  opacity: 0.38;
+  text-decoration: line-through;
+  background: transparent;
+  &:hover { border-color: c.$p-line; }
+}
+
+// ─── Inputs ─────────────────────────────────────────────────────────────────
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  @media (max-width: 400px) { grid-template-columns: 1fr; }
+}
+
+.field { display: grid; gap: 6px; }
+
+.label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: c.$p-muted;
+  em { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 500; }
+}
+
+.control,
+.controlArea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1.5px solid c.$p-line-strong;
+  background: #fff;
+  color: c.$p-text;
+  padding: 0 14px;
+  min-height: 48px;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+  @include m.reduceMotion;
+
+  &::placeholder { color: rgba(23, 19, 15, 0.38); }
+  &:focus { border-color: c.$p-text; box-shadow: 0 0 0 3px rgba(23, 19, 15, 0.10); }
+}
+
+.controlArea { padding: 12px 14px; resize: none; }
+
+.controlError {
+  border-color: c.$accent !important;
+  box-shadow: 0 0 0 3px rgba(196, 30, 50, 0.14) !important;
+}
+
+.fieldError { color: c.$accent; font-size: 0.82rem; line-height: 1.4; font-weight: 600; }
+
+.errorMsg {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(196, 30, 50, 0.4);
+  background: rgba(196, 30, 50, 0.08);
+  color: #9B1424;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .honeypot {
@@ -162,197 +392,245 @@
   pointer-events: none;
 }
 
-.form {
+// ─── Sticky footer ──────────────────────────────────────────────────────────
+.footer {
+  flex: none;
+  padding: 14px 22px calc(14px + env(safe-area-inset-bottom));
+  background: c.$paper-3;
+  border-top: 1px solid c.$p-line-strong;
+  box-shadow: 0 -10px 28px rgba(23, 19, 15, 0.08);
   display: grid;
   gap: 12px;
-  align-content: start;
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-
-  @media (max-width: 380px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.field { display: grid; gap: 6px; position: relative; }
-
-.fieldError {
-  color: c.$accent;
-  font-size: 0.80rem;
-  line-height: 1.4;
-}
-
-.controlError {
-  border-color: c.$accent !important;
-  box-shadow: 0 0 0 3px rgba(176, 28, 46, 0.10) !important;
-}
-
-.label {
-  color: c.$muted;
-  font-size: 0.82rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.control,
-.controlArea {
-  width: 100%;
-  border-radius: r.$md;
-  border: 1.5px solid c.$line;
-  background: rgba(255, 255, 255, 0.06);
-  color: c.$text;
-  padding: 11px 12px;
-  font-family: inherit;
-  font-size: inherit;
-  outline: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
-  @include m.reduceMotion;
-
-  &:hover { border-color: c.$line-strong; }
-
-  &:focus {
-    border-color: c.$accent;
-    box-shadow: 0 0 0 3px rgba(176, 28, 46, 0.12);
-  }
-}
-
-.controlArea {
-  resize: vertical;
-  min-height: 88px;
-}
-
-.actions {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 10px;
-  margin-top: 4px;
-}
-
-.secondary,
-.primary {
-  padding: 12px 14px;
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  font: inherit;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
-  @include m.focusRing;
-  @include m.reduceMotion;
-}
-
-.secondary {
-  border: 1.5px solid c.$line-strong;
-  background: transparent;
-  color: c.$text;
-
-  &:hover {
-    background: c.$surface;
-    border-color: c.$line-strong;
-    transform: translateY(-1px);
-  }
-}
-
-.primary {
-  border: 1.5px solid c.$accent;
-  background: c.$accent;
-  color: #ffffff;
-  display: inline-flex;
+.recap {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 12px;
+}
 
-  &:hover:not(:disabled) {
-    background: c.$accent-hover;
-    border-color: c.$accent-hover;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(176, 28, 46, 0.28);
-  }
+.recapMain { display: grid; gap: 2px; min-width: 0; }
+.recapName { font-weight: 800; font-size: 0.98rem; }
+.recapWhen { font-size: 0.82rem; color: c.$p-text-2; }
+
+.recapPrice { text-align: right; display: grid; gap: 1px; flex: none; }
+.recapPriceVal { font-family: t.$font-accent; font-weight: 700; font-size: 1.5rem; line-height: 1; }
+.recapDur { font-size: 0.76rem; color: c.$p-muted; }
+
+.primary {
+  @include m.btn-primary;
+  width: 100%;
+  text-decoration: none;
+  min-height: 54px;
+  font-size: 1rem;
 
   &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    transform: none;
+    opacity: 1;
+    background: c.$paper-2;
+    border-color: c.$p-line;
+    color: c.$p-muted;
+    box-shadow: none;
   }
 }
 
-.arrow { opacity: 0.9; }
-
 .hint {
-  color: c.$muted;
+  text-align: center;
   font-size: 0.82rem;
-  line-height: 1.55;
-  border-top: 1px solid c.$line;
-  padding-top: 10px;
-}
-
-.errorMsg {
-  margin: 0;
-  padding: 10px 14px;
-  border-radius: r.$md;
-  border: 1.5px solid rgba(176, 28, 46, 0.30);
-  background: rgba(176, 28, 46, 0.06);
-  color: c.$accent;
-  font-size: 0.88rem;
-  line-height: 1.5;
+  color: c.$p-muted;
+  a { color: c.$p-text; font-weight: 700; }
 }
 
 .spinner {
   display: inline-block;
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
   border-radius: 50%;
   animation: spin 600ms linear infinite;
-  flex-shrink: 0;
   @include m.reduceMotion;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
+// ─── Success ────────────────────────────────────────────────────────────────
 .successState {
+  flex: 1;
   display: grid;
   gap: 14px;
   justify-items: center;
-  text-align: center;
-  padding: clamp(28px, 6vw, 48px) 16px;
   align-content: center;
+  text-align: center;
+  padding: 32px 24px;
 }
 
+.successActions {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.ghost { @include m.btn-outline-ink; min-height: 52px; }
+.textBtn { @include m.btn-base; background: none; color: c.$p-muted; min-height: 44px; }
+
 .successIcon {
-  width: 64px;
-  height: 64px;
+  animation: pop 520ms cubic-bezier(0.2, 1.4, 0.4, 1) both;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
-  border: 2px solid c.$accent;
-  background: c.$accent-bg;
+  background: c.$p-text;
+  color: c.$brass;
   display: grid;
   place-items: center;
-  color: c.$accent;
-  font-size: 1.6rem;
-  font-weight: 700;
 }
+
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.successIcon svg path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: draw 480ms 260ms ease-out forwards;
+  @media (prefers-reduced-motion: reduce) { animation: none; stroke-dashoffset: 0; }
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.ticket { animation: slide-up 600ms 380ms cubic-bezier(0.2, 0.8, 0.2, 1) both; @media (prefers-reduced-motion: reduce) { animation: none; } }
+@keyframes slide-up { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
 
 .successTitle {
   margin: 0;
   font-family: t.$font-display;
-  font-size: 1.5rem;
-  font-weight: 900;
+  font-size: 2rem;
   letter-spacing: t.$ls-display;
   text-transform: uppercase;
-  color: c.$text;
+  font-weight: 400;
 }
 
-.successDesc {
-  margin: 0;
-  color: c.$text-2;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-width: 34ch;
+.successDesc { margin: 0; color: c.$p-text-2; max-width: 32ch; line-height: 1.55; }
+
+.ticket {
+  width: 100%;
+  margin: 6px 0 10px;
+  padding: 6px 18px;
+  background: #fff;
+  border: 1.5px dashed c.$p-line-strong;
+  border-radius: 14px;
+  text-align: left;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 0;
+    & + div { border-top: 1px solid c.$p-line; }
+  }
+  dt { color: c.$p-muted; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+  dd { margin: 0; font-weight: 700; text-align: right; }
+}
+
+// ═══ Wizard (3 short steps, no scrolling to move on) ═════════════════════════
+.body {
+  gap: 20px;
+  padding: 18px 20px 12px;
+  animation: step-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  &[data-dir="back"] { animation-name: step-in-back; }
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+
+@keyframes step-in      { from { opacity: 0; transform: translateX(22px); }  to { opacity: 1; transform: none; } }
+@keyframes step-in-back { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: none; } }
+
+.legend { margin-bottom: 10px; font-size: 0.74rem; color: c.$p-muted; }
+.group { gap: 0; }
+
+// Barber: one row of chips
+.barbers { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.chip {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 12px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1.5px solid c.$p-line;
+  background: c.$paper-3;
+  color: c.$p-text;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, color 140ms ease;
+  @include m.reduceMotion;
+  &:hover { border-color: c.$p-line-strong; }
+  &:has(:focus-visible) { outline: 2px solid c.$accent; outline-offset: 2px; }
+  &.active { background: c.$p-text; border-color: c.$p-text; color: c.$paper; }
+}
+
+// Compact service tiles
+.services { gap: 8px; }
+.serviceCard { padding: 11px 12px; }
+.serviceName { font-size: 0.92rem; }
+.servicePrice { margin-top: 4px; font-size: 1.15rem; }
+
+// Days: no month line, shorter tiles
+.days { padding-bottom: 6px; }
+.day { width: 54px; padding: 8px 0; }
+.dayNum { font-size: 1.5rem; }
+
+// Slots: compact
+.slots { gap: 6px; }
+.slot { padding: 9px 0; font-size: 0.84rem; }
+
+// Step 3
+.recapCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: c.$p-text;
+  color: c.$paper;
+  border-radius: 14px;
+
+  .recapWhen { color: rgba(242, 236, 224, 0.7); }
+}
+.fields { display: grid; gap: 12px; }
+.label { font-size: 0.7rem; }
+.control { min-height: 50px; }
+
+// Footer
+.footer { gap: 10px; padding-top: 12px; }
+
+.priceLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.86rem;
+  color: c.$p-text-2;
+  strong { font-family: t.$font-accent; font-size: 1.35rem; color: c.$p-text; line-height: 1; }
+}
+
+.navRow { display: flex; gap: 10px; }
+
+.back {
+  @include m.btn-outline-ink;
+  flex: none;
+  width: 54px;
+  min-height: 54px;
+  padding: 0;
+}
+
+.navRow .primary { flex: 1; min-height: 54px; }
+
+.errorMsg a { color: inherit; font-weight: 700; }
+
+// Sheet hugs its content on phones instead of always filling 94% of the screen
+@media (max-width: 639px) {
+  .drawer { height: auto; max-height: 94dvh; min-height: 62dvh; }
 }

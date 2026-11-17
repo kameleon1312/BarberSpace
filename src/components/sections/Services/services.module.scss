@@ -6,7 +6,7 @@
 
 .section {
   padding: clamp(56px, 7vw, 92px) 0;
-  background: c.$bg-2;
+  background: c.$paper;
 }
 
 .inner { @include m.container; }
@@ -38,12 +38,13 @@
 }
 
 .eyebrow {
+  @include m.eyebrow;
   margin: 0;
   display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 14px;
-  color: c.$muted;
+  color: c.$p-muted;
   letter-spacing: t.$ls-wide;
   text-transform: uppercase;
   font-size: 0.74rem;
@@ -68,12 +69,12 @@
   letter-spacing: t.$ls-display;
   line-height: t.$lh-heading;
   text-transform: uppercase;
-  color: c.$text;
+  color: c.$p-text;
 }
 
 .subtitle {
   margin: 0 auto;
-  color: c.$text-2;
+  color: c.$p-text-2;
   line-height: t.$lh;
   max-width: 58ch;
   font-size: 0.97rem;
@@ -85,7 +86,7 @@
   list-style: none;
   display: grid;
   gap: 0;
-  border-top: 1px solid c.$line;
+  border-top: 1px solid c.$p-line;
 }
 
 .listItem {
@@ -95,7 +96,7 @@
   gap: 16px;
   padding: 16px 12px;
   border: none;
-  border-bottom: 1px solid c.$line;
+  border-bottom: 1px solid c.$p-line;
   border-left: 3px solid transparent;
   background: transparent;
   cursor: pointer;
@@ -105,13 +106,14 @@
   @include m.reduceMotion;
 
   &:hover {
-    background: rgba(196, 30, 50, 0.10);
-    border-left-color: rgba(196, 30, 50, 0.40);
+    background: rgba(23, 19, 15, 0.05);
+    border-left-color: rgba(23, 19, 15, 0.3);
   }
 }
 
 .listItemActive {
-  background: rgba(196, 30, 50, 0.14);
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(23, 19, 15, 0.08);
   border-left-color: c.$accent;
 }
 
@@ -144,7 +146,7 @@
   font-weight: 800;
   letter-spacing: t.$ls-display;
   text-transform: uppercase;
-  color: c.$text;
+  color: c.$p-text;
   line-height: 1.1;
 
   .listItemActive & { color: c.$accent; }
@@ -152,7 +154,7 @@
 
 .listMeta {
   font-size: 0.82rem;
-  color: c.$muted;
+  color: c.$p-muted;
   font-weight: 500;
 }
 
@@ -173,29 +175,10 @@
 }
 
 .cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  @include m.btn-ink;
   align-self: start;
-  padding: 11px 18px;
-  border-radius: r.$pill;
-  border: 1.5px solid c.$accent;
-  background: c.$accent;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.92rem;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease,
-    box-shadow 160ms ease;
-  @include m.focusRing;
-  @include m.reduceMotion;
-
-  &:hover {
-    background: c.$accent-hover;
-    border-color: c.$accent-hover;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(176, 28, 46, 0.25);
-  }
+  min-height: 54px;
+  padding: 0 28px;
 }
 
 .ctaArrow {
@@ -211,14 +194,14 @@
   overflow: hidden;
   isolation: isolate;
   border-radius: r.$xl;
-  border: 2px solid c.$ink;
+  border: 0;
   padding: 24px;
   display: grid;
   grid-template-rows: 1fr auto;
   gap: 14px;
   color: #ffffff;
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.40);
-  box-shadow: s.$heavy;
+  box-shadow: 0 24px 56px rgba(23, 19, 15, 0.30);
   min-height: 320px;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -321,28 +304,49 @@
 }
 
 .previewCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 16px;
-  border-radius: r.$pill;
-  border: 1.5px solid c.$accent;
-  background: c.$accent;
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.92rem;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
-  @include m.focusRing;
-  @include m.reduceMotion;
-
-  &:hover {
-    background: c.$accent-hover;
-    border-color: c.$accent-hover;
-    transform: translateY(-1px);
-  }
+  @include m.btn-primary;
 }
 
 @media (min-width: 980px) {
   .preview { min-height: 0; }
+}
+
+// Left-aligned section headers
+.header { text-align: left; justify-items: start; }
+.eyebrow { justify-content: flex-start; }
+.subtitle { margin-inline: 0; }
+
+// ─── Phones: the matching photo sits right beside each option ───────────────
+.thumb {
+  display: block;
+  flex: none;
+  width: 88px;
+  height: 88px;
+  object-fit: cover;
+  border-radius: 14px;
+  filter: grayscale(0.7) brightness(0.9);
+  transition: filter 240ms ease, transform 240ms ease;
+  @include m.reduceMotion;
+
+  .listItemActive & { filter: none; transform: scale(1.03); }
+}
+
+.listDesc {
+  display: none;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: c.$p-text-2;
+  margin-top: 4px;
+  .listItemActive & { display: block; }
+}
+
+@media (max-width: 979px) {
+  .preview { display: none; }
+  .listArrow { display: none; }
+  .listItem { padding: 12px; gap: 12px; align-items: center; }
+  .listNum { width: 30px; font-size: 1.5rem; }
+}
+
+@media (min-width: 980px) {
+  .thumb, .listDesc, .listItemActive .listDesc { display: none; }
 }

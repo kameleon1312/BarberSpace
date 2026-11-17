@@ -26,12 +26,11 @@ export function Gallery() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal={rv}>
           <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowNum}>05</span>
-            Nasze prace
+            Galeria
           </p>
-          <h2 className={styles.title}>The Book.</h2>
+          <h2 className={styles.title}>Realizacje.</h2>
           <p className={styles.subtitle}>
-            Każde cięcie to osobna historia. Tu pokazujemy te, z których jesteśmy dumni.
+            Prawdziwe cięcia z naszych foteli.
           </p>
         </header>
 
@@ -51,14 +50,8 @@ export function Gallery() {
                   loading="lazy"
                   decoding="async"
                 />
-                <div className={styles.overlay} aria-hidden="true">
-                  <span className={styles.overlayLabel}>{item.label}</span>
-                </div>
               </div>
-              <div className={styles.meta}>
-                <span className={styles.metaNum} aria-hidden="true">{item.num}</span>
-                <span className={styles.metaLabel}>{item.label}</span>
-              </div>
+              <span className={styles.metaLabel}>{item.label}</span>
             </article>
           ))}
         </div>

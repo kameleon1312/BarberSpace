@@ -24,12 +24,11 @@ export function Team() {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal={rv}>
           <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowNum}>07</span>
             Ekipa
           </p>
-          <h2 className={styles.title}>Ludzie za nożyczkami.</h2>
+          <h2 className={styles.title}>Barberzy.</h2>
           <p className={styles.subtitle}>
-            Znasz swój styl — my znamy swój zawód. Reszta to rozmowa.
+            Dwóch barberów, łącznie 14 lat za fotelem.
           </p>
         </header>
 

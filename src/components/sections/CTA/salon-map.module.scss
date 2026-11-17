@@ -1,0 +1,77 @@
+@use "../../../styles/tokens/colors" as c;
+
+.wrap {
+  position: relative;
+  height: 100%;
+  min-height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #1b1b1b;
+  isolation: isolate;
+}
+
+.map {
+  position: absolute;
+  inset: 0;
+  background: #1b1b1b;
+
+  &:global(.leaflet-container) { background: #1b1b1b; font-family: inherit; }
+
+  :global(.leaflet-container .leaflet-control-attribution),
+  :global(.leaflet-control-attribution) {
+    background: rgba(10, 10, 10, 0.7) !important;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 10px;
+    a { color: inherit; }
+  }
+  :global(.leaflet-bar a) {
+    background: #151515;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+// Logo pin: round badge with a pointer tail, drops in once
+.markerWrap {
+  background: none;
+  border: 0;
+}
+
+.marker {
+  position: relative;
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: c.$ink;
+  border: 3px solid c.$accent;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.55);
+  animation: drop 700ms cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(1.35);
+    display: block;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -11px;
+    margin-left: -7px;
+    border: 7px solid transparent;
+    border-top: 11px solid c.$accent;
+    border-bottom: 0;
+  }
+}
+
+@keyframes drop {
+  from { transform: translateY(-26px); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}

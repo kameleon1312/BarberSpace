@@ -6,7 +6,7 @@
 
 .section {
   padding: clamp(56px, 7vw, 92px) 0;
-  background: c.$bg;
+  background: c.$paper;
 }
 
 .inner { @include m.container; }
@@ -19,12 +19,13 @@
 }
 
 .eyebrow {
+  @include m.eyebrow;
   margin: 0;
   display: flex;
   align-items: baseline;
   justify-content: center;
   gap: 14px;
-  color: c.$muted;
+  color: c.$p-muted;
   letter-spacing: t.$ls-wide;
   text-transform: uppercase;
   font-size: 0.74rem;
@@ -48,13 +49,13 @@
   font-size: t.$fs-3;
   letter-spacing: t.$ls-display;
   text-transform: uppercase;
-  color: c.$text;
+  color: c.$p-text;
   line-height: t.$lh-heading;
 }
 
 .subtitle {
   margin: 0 auto;
-  color: c.$text-2;
+  color: c.$p-text-2;
   max-width: 58ch;
   line-height: t.$lh;
   font-size: 0.97rem;
@@ -68,7 +69,7 @@
   padding: 0;
   margin: 0;
 
-  li {
+  > li {
     display: contents;
   }
 }
@@ -90,11 +91,13 @@
   text-align: left;
   position: relative;
   isolation: isolate;
+  width: 100%;
+  height: 100%;
   border-radius: r.$xl;
-  border: 1.5px solid c.$line;
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: none;
-  padding: 18px;
+  border: 1.5px solid c.$p-line;
+  background: c.$paper-3;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 2px 10px rgba(23, 19, 15, 0.06);
+  padding: 22px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -102,40 +105,34 @@
   appearance: none;
   -webkit-appearance: none;
   font: inherit;
-  color: c.$text;
-  transition:
-    transform 200ms ease,
-    border-color 200ms ease,
-    box-shadow 200ms ease;
+  color: c.$p-text;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
   @include m.focusRing;
   @include m.reduceMotion;
 
   &:hover {
-    transform: translateY(-3px);
-    border-color: c.$line-strong;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.40);
+    transform: translateY(-4px);
+    border-color: c.$p-text;
+    box-shadow: 0 18px 40px rgba(23, 19, 15, 0.16);
   }
 
   &:active { transform: translateY(0); }
-
-  &:focus-visible {
-    border-color: rgba(176, 28, 46, 0.55);
-    box-shadow: 0 0 0 3px rgba(176, 28, 46, 0.15), s.$soft;
-  }
 }
 
 .featured {
-  border: 2px solid c.$accent;
-  background: linear-gradient(
-    160deg,
-    rgba(196, 30, 50, 0.12) 0%,
-    rgba(255, 255, 255, 0.04) 60%
-  );
+  background: c.$p-text;
+  border-color: c.$p-text;
+  color: c.$paper;
+  box-shadow: 0 18px 44px rgba(23, 19, 15, 0.28);
 
-  &:hover {
-    border-color: c.$accent-hover;
-    box-shadow: 0 8px 32px rgba(176, 28, 46, 0.16), s.$soft;
-  }
+  .kicker, .note, .small, .metaHint, .metaDot { color: rgba(242, 236, 224, 0.58); }
+  .name, .price { color: #fff; }
+  .desc, .feature, .time { color: rgba(242, 236, 224, 0.82); }
+  .cardBottom { border-top-color: rgba(255, 255, 255, 0.16); }
+  .check { border-color: rgba(217, 164, 91, 0.5); background: rgba(217, 164, 91, 0.14); color: c.$brass; }
+  .cta { border-color: rgba(255, 255, 255, 0.3); color: #fff; }
+
+  &:hover { border-color: c.$accent; box-shadow: 0 22px 52px rgba(23, 19, 15, 0.36); }
 }
 
 .cardTop {
@@ -150,15 +147,15 @@
   letter-spacing: t.$ls-wide;
   text-transform: uppercase;
   font-weight: 700;
-  color: c.$muted;
+  color: c.$p-muted;
 }
 
 .badge {
-  padding: 5px 9px;
+  padding: 6px 10px;
   border-radius: r.$pill;
-  border: 1.5px solid c.$accent;
-  background: c.$accent;
-  color: #ffffff;
+  border: 0;
+  background: c.$brass;
+  color: c.$p-text;
   font-size: 0.70rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -174,22 +171,22 @@
 
 .name {
   font-family: t.$font-display;
-  font-size: 1.35rem;
+  font-size: 1.6rem;
   font-weight: 800;
   letter-spacing: t.$ls-display;
   text-transform: uppercase;
   line-height: 1.05;
-  color: c.$text;
+  color: c.$p-text;
 }
 
 .note {
-  color: c.$muted;
+  color: c.$p-muted;
   font-size: 0.88rem;
   font-weight: 500;
 }
 
 .desc {
-  color: c.$text-2;
+  color: c.$p-text-2;
   line-height: 1.5;
   font-size: 0.93rem;
 }
@@ -204,11 +201,11 @@
 
 .time {
   font-weight: 700;
-  color: c.$text-2;
+  color: c.$p-text-2;
 }
 
-.metaDot { color: c.$muted; opacity: 0.7; }
-.metaHint { color: c.$muted; font-size: 0.86rem; }
+.metaDot { color: c.$p-muted; opacity: 0.7; }
+.metaHint { color: c.$p-muted; font-size: 0.86rem; }
 
 .features {
   margin: 2px 0 0;
@@ -216,6 +213,7 @@
   list-style: none;
   display: grid;
   gap: 8px;
+  align-content: start;
   flex: 1;
 }
 
@@ -224,7 +222,7 @@
   grid-template-columns: 18px 1fr;
   gap: 8px;
   align-items: start;
-  color: c.$text-2;
+  color: c.$p-text-2;
   line-height: 1.4;
   font-size: 0.91rem;
 }
@@ -235,7 +233,7 @@
   display: inline-grid;
   place-items: center;
   border-radius: 999px;
-  border: 1.5px solid rgba(176, 28, 46, 0.30);
+  border: 1.5px solid rgba(196, 30, 50, 0.35);
   background: rgba(176, 28, 46, 0.08);
   color: c.$accent;
   font-size: 0.72rem;
@@ -247,7 +245,7 @@
   display: grid;
   gap: 10px;
   padding-top: 10px;
-  border-top: 1px solid c.$line;
+  border-top: 1px solid c.$p-line;
   margin-top: 0;
 }
 
@@ -259,30 +257,22 @@
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: c.$text;
+  color: c.$p-text;
 }
 
 .small {
-  color: c.$muted;
+  color: c.$p-muted;
   font-size: 0.84rem;
   line-height: 1.35;
 }
 
 .cta {
-  display: inline-flex;
-  align-items: center;
+  @include m.btn-outline-ink;
   justify-content: space-between;
-  gap: 10px;
-  border-radius: 0;
-  border: 2px solid c.$accent;
-  background: transparent;
-  color: c.$accent;
-  padding: 9px 12px;
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  min-height: 46px;
+  padding: 0 16px;
+  font-size: 0.88rem;
+  pointer-events: none;
 }
 
 .ctaText { font-weight: 700; letter-spacing: 0.01em; }
@@ -295,6 +285,7 @@
 
 .card:hover .cta {
   background: c.$accent;
+  border-color: c.$accent;
   color: #ffffff;
 }
 
@@ -305,7 +296,7 @@
 
 .hint {
   margin-top: 20px;
-  color: c.$muted;
+  color: c.$p-muted;
   font-size: 0.88rem;
   line-height: 1.55;
 }
@@ -321,4 +312,41 @@
   .ctaArrow {
     transition: none;
   }
+}
+
+// Left-aligned section headers
+.header { text-align: left; justify-items: start; }
+.eyebrow { justify-content: flex-start; }
+.subtitle { margin-inline: 0; }
+
+// ─── Phones: price list instead of tall cards ───────────────────────────────
+@media (max-width: 899px) {
+  .grid { grid-template-columns: 1fr; gap: 10px; }
+
+  .card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "name price" "time arrow";
+    column-gap: 14px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 16px 18px;
+    min-height: 76px;
+    border-radius: 18px;
+  }
+
+  .kicker, .desc, .features, .metaHint, .metaDot, .small, .note { display: none; }
+  .cardTop { display: contents; }
+  .badge { display: inline-block; position: absolute; top: -9px; right: 14px; }
+
+  .nameRow { grid-area: name; }
+  .meta { grid-area: time; }
+  .cardBottom { display: contents; }
+  .priceWrap { grid-area: price; justify-self: end; }
+  .cta { grid-area: arrow; justify-self: end; border: 0; padding: 0; min-height: 0; background: none !important; }
+  .ctaText { display: none; }
+  .ctaArrow { font-size: 1.2rem; }
+  .name { font-size: 1.5rem; }
+  .price { font-size: 1.7rem; line-height: 1; }
+  .cardBottom { border: 0; padding: 0; }
 }

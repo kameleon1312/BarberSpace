@@ -62,12 +62,11 @@ export function Pricing({ onPick }: PricingProps) {
       <div className={styles.inner}>
         <header className={styles.header} data-reveal={rv}>
           <p className={styles.eyebrow} aria-hidden="true">
-            <span className={styles.eyebrowNum}>04</span>
             Cennik
           </p>
-          <h2 className={styles.title}>Transparentnie.<br />Bez niespodzianek.</h2>
+          <h2 className={styles.title}>Stałe ceny.<br />Bez dopłat.</h2>
           <p className={styles.subtitle}>
-            Płacisz za konkretny efekt, nie za wystrój lokalu. Zero ukrytych kosztów, zero niespodzianek.
+            Cena stała, ustalona przed cięciem. Dotknij usługi, żeby zarezerwować.
           </p>
         </header>
 
@@ -102,7 +101,7 @@ export function Pricing({ onPick }: PricingProps) {
                 <div className={styles.meta}>
                   <span className={styles.time}>{p.time}</span>
                   <span className={styles.metaDot} aria-hidden="true">•</span>
-                  <span className={styles.metaHint}>Kliknij, aby zarezerwować</span>
+                  <span className={styles.metaHint}>Dotknij, aby zarezerwować</span>
                 </div>
 
                 <ul className={styles.features} aria-label="W pakiecie">
@@ -117,7 +116,6 @@ export function Pricing({ onPick }: PricingProps) {
                 <div className={styles.cardBottom}>
                   <div className={styles.priceWrap}>
                     <div className={styles.price}>{p.price}</div>
-                    <div className={styles.small}>Cena finalna po konsultacji (jeśli trzeba)</div>
                   </div>
 
                   <div className={styles.cta}>
@@ -136,7 +134,7 @@ export function Pricing({ onPick }: PricingProps) {
           data-reveal={rv}
           style={{ "--reveal-delay": "480ms" } as React.CSSProperties}
         >
-          * Czas zależy od długości włosów i oczekiwanego efektu. Zawsze dogadamy szczegóły przed startem.
+          Czas zależy od długości włosów i efektu. Cenę potwierdzamy na konsultacji przed startem.
         </p>
       </div>
     </section>

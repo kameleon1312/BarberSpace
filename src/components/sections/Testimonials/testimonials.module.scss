@@ -19,6 +19,7 @@
 }
 
 .eyebrow {
+  @include m.eyebrow;
   margin: 0;
   display: flex;
   align-items: baseline;
@@ -53,16 +54,28 @@
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  // Phones: swipe strip. ≥860px: three columns.
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  margin-inline: calc(-1 * max(16px, (100vw - 1120px) / 2));
+  padding-inline: max(16px, (100vw - 1120px) / 2);
+  scroll-padding-inline: 16px;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
 
-  @media (max-width: 860px) {
-    grid-template-columns: 1fr 1fr;
-  }
+  > * { flex: 0 0 84%; max-width: 380px; scroll-snap-align: start; }
 
-  @media (max-width: 540px) {
-    grid-template-columns: 1fr;
+  @media (min-width: 860px) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+    > * { max-width: none; }
   }
 }
 
@@ -130,3 +143,8 @@
   font-weight: 500;
   letter-spacing: 0.03em;
 }
+
+// Left-aligned section headers
+.header { text-align: left; justify-items: start; }
+.eyebrow { justify-content: flex-start; }
+.subtitle { margin-inline: 0; }
